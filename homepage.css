@@ -1,0 +1,10 @@
+table {
+    
+    background: rgb(184, 75, 75);
+    color: black;
+    border-radius: 41px;
+    
+}
+th, td { 
+    font-weight: bold;
+}
