@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
+        }
+        .breathing-circle {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            border-radius: 50%;
+
+            /* Az animation kulcsszó után tudjuk megadni a "fgv" szerű keyframünk nevét.
+            Az animáció propertyjai: name duration timing-function delay iteration-count direction fill-mode play-state */ 
+
+            animation: breathe 3s infinite ease-in-out;
+        }
+
+        /* A keyframe hasonlóan működik mint egy fgv., amíg megnem hívjuk addig nem fog lefutni.
+        keyframe használata: @keyframe "name" "kezdő/végpont" "egy vagy több css tulajdonság/érték"*/ 
+
+        @keyframes breathe {
+
+        /*  A transform pár propertyjéről: tudtok akár mátrix érték alapján értéket megadni, translate-el tudtok eltolni elemet akár vízszintesen (X) akár függőlegesen (Y)
+
+            A scale-el tudtok méretet változtatni nagyítani/kicsinyíteni, működése: megszorozza a méretet arányosan az adott számmal. 1 az alap. ha 2-őt adsz meg kétszeresére nő. Negatív érték pl tükröz.
+        
+            A rotate-el tudtok forgatni egy elemet. Értékét vagy fokban (deg) vagy fordulatokban (turn) adjuk meg.
+
+            A skew-al tudtok torzítani/dönteni. Lényegében megdönti az elemet a tengelyek mentén. Értékét fokban adjuk meg.
+        */
+
+        from, to{ transform: scale(1); background-color: #3498db; }
+
+            /*A transform scale-el sokkal egyszerűbb és hatékonyabb a méretváltoztatást megoldani mintha a "width"-et változtatnánk. */
+        50% { transform: scale(1.5); background-color: #e74c3c; }
+        }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="breathing-circle">
+
+        </div>
+
+    </div>
+    
+</body>
+</html>
