@@ -21,6 +21,9 @@ SET time_zone = "+00:00";
 -- Adatbázis: `calander`
 --
 
+CREATE DATABASE calander;
+USE calander;
+
 -- --------------------------------------------------------
 
 --
