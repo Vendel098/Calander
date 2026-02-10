@@ -71,8 +71,8 @@ ALTER TABLE `esemenyek`
 --
 ALTER TABLE `profil`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `in_felh_nev` (`felh_nev`),
-  ADD UNIQUE KEY `in_email` (`email`) USING BTREE;
+  ADD UNIQUE KEY `felh_nev` (`felh_nev`) USING BTREE,
+  ADD UNIQUE KEY `email` (`email`) USING BTREE;
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
