@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="main.js">
+  <title>Calendar</title>
+  
+ 
+</head>
+<body>
+
+<div class="calendar-container">
+  <div class="header">
+    <h1 id="month-year">Február 2026</h1>
+    <div class="nav-buttons">
+      <button onclick="prevMonth()">‹</button>
+      <button onclick="nextMonth()">›</button>
+    </div>
+  </div>
+
+  <div class="weekdays">
+    <div>Hét</div><div>Kedd</div><div>Szer</div><div>Csüt</div>
+    <div>Pén</div><div>Szo</div><div>Vas</div>
+  </div>
+
+  <div class="days" id="days"></div>
+</div>
+
+<script>
+const monthNames = [
+  "Január","Február","Március","Április","Május","Június",
+  "Július","Augusztus","Szeptember","Október","November","December"
+];
+
+let currentDate = new Date(2026, 1, 1); // Február 2026 kezdőpont
+
+function renderCalendar() {
+  const daysContainer = document.getElementById("days");
+  const monthYear = document.getElementById("month-year");
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  monthYear.textContent = `${monthNames[month]} ${year}`;
+
+  const firstDay = new Date(year, month, 1).getDay() || 7; // vasárnap = 7
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const prevMonthDays = new Date(year, month, 0).getDate();
+
+  daysContainer.innerHTML = "";
+
+  // Előző hónap napjai
+  for (let i = firstDay - 1; i >= 1; i--) {
+    createDayElement(prevMonthDays - i + 1, true, daysContainer);
+  }
+
+  // Aktuális hónap
+  const today = new Date();
+  for (let i = 1; i <= daysInMonth; i++) {
+    const isToday =
+      i === today.getDate() &&
+      month === today.getMonth() &&
+      year === today.getFullYear();
+
+    const dayEl = createDayElement(i, false, daysContainer, isToday);
+    addDragAndDropToDay(dayEl);
+  }
+
+  // Következő hónap napjai (42 celláig)
+  const cellsSoFar = firstDay - 1 + daysInMonth;
+  const remaining = 42 - cellsSoFar;
+  for (let i = 1; i <= remaining; i++) {
+    createDayElement(i, true, daysContainer);
+  }
+}
+
+function createDayElement(dayNum, isOtherMonth, container, isToday = false) {
+  const dayEl = document.createElement("div");
+  dayEl.className = "day";
+  if (isOtherMonth) dayEl.classList.add("other-month");
+  if (isToday) {
+    dayEl.classList.add("today");
+    dayEl.innerHTML = `<div class="day-number">${dayNum}</div>`;
+  } else {
+    dayEl.innerHTML = `<div class="day-number">${dayNum}</div>`;
+  }
+
+  container.appendChild(dayEl);
+  return dayEl;
+}
+
+function addDragAndDropToDay(dayElement) {
+  dayElement.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dayElement.classList.add("drag-over");
+  });
+
+  dayElement.addEventListener("dragleave", () => {
+    dayElement.classList.remove("drag-over");
+  });
+
+  dayElement.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dayElement.classList.remove("drag-over");
+
+    const data = e.dataTransfer.getData("text/plain");
+    if (!data) return;
+
+    const draggedEvent = document.getElementById(data);
+    if (!draggedEvent) return;
+
+    // Áthelyezés
+    dayElement.appendChild(draggedEvent);
+  });
+
+  dayElement.addEventListener("dragenter", (e) => {
+    e.preventDefault();
+  });
+}
+
+// Esemény létrehozása (kétszer kattintva a napra)
+document.addEventListener("dblclick", (e) => {
+  const day = e.target.closest(".day");
+  if (!day || day.classList.contains("other-month")) return;
+
+  const eventText = prompt("Új esemény címe:");
+  if (!eventText || eventText.trim() === "") return;
+
+  const eventEl = document.createElement("div");
+  eventEl.className = "event";
+  eventEl.draggable = true;
+  eventEl.textContent = eventText;
+  eventEl.id = "event-" + Date.now(); // egyedi ID
+
+  eventEl.addEventListener("dragstart", (ev) => {
+    ev.dataTransfer.setData("text/plain", eventEl.id);
+    eventEl.classList.add("dragging");
+  });
+
+  eventEl.addEventListener("dragend", () => {
+    eventEl.classList.remove("dragging");
+  });
+
+  day.appendChild(eventEl);
+});
+
+function prevMonth() {
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  renderCalendar();
+}
+
+function nextMonth() {
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  renderCalendar();
+}
+
+// Indítás
+renderCalendar();
+</script>
+
+</body>
+</html>
