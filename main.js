@@ -47,7 +47,7 @@ function createDay(num, isOther = false, isToday = false) {
     e.preventDefault();
     day.classList.remove("drag-over");
     const text = e.dataTransfer.getData("text");
-    const color = e.dataTransfer.getData("color") || "#1e88e5";
+    const color = e.dataTransfer.getData("color") || "#4b63a5ff";
 
     if (!text) return;
 
