@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="main.css">
+  <script src="main.js" defer></script>
+  <title>Calendar</title>
+  
+ 
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>Események</h2>
+  <div class="template-event" draggable="true">Születésnap</div>
+  <div class="template-event" draggable="true">Névnap</div>
+  <div class="template-event" draggable="true">Nyaralás</div>
+  <div class="template-event" draggable="true">Orvos</div>
+  <div class="template-event" draggable="true">Egyéb teendő</div>
+</div>
+
+<div class="calendar">
+  <div class="header">
+    <h2 id="month-year">Március 2025</h2>
+    <div>
+      <button onclick="prevMonth()">‹</button>
+      <button onclick="nextMonth()">›</button>
+    </div>
+  </div>
+
+  <div class="weekdays">
+    <div>H</div><div>K</div><div>Sz</div><div>Cs</div><div>P</div><div>Sz</div><div>V</div>
+  </div>
+
+  <div class="days" id="days"></div>
+</div>
+
+
+
+</body>
+</html>
