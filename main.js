@@ -1,3 +1,25 @@
+<<<<<<< HEAD
+document.querySelectorAll('.input-box i').forEach(icon => {
+  const input = icon.parentElement.querySelector('input[type="password"]');
+  
+  if (input) {
+    icon.addEventListener('click', () => {
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-sharp fa-solid fa-eye-slash');
+        icon.classList.add('fa-sharp fa-solid fa-eye');
+      } 
+      else {
+        input.type = 'password';
+        icon.classList.remove('fa-sharp fa-solid fa-eye');
+        icon.classList.add('fa-sharp fa-solid fa-eye-slash');
+      }
+    });
+    
+    icon.style.cursor = 'pointer';
+  }
+});
+=======
 const monthNames = ["Január","Február","Március","Április","Május","Június","Július","Augusztus","Szeptember","Október","November","December"];
 
 let currentMonth = new Date().getMonth();
@@ -47,7 +69,7 @@ function createDay(num, isOther = false, isToday = false) {
     e.preventDefault();
     day.classList.remove("drag-over");
     const text = e.dataTransfer.getData("text");
-    const color = e.dataTransfer.getData("color") || "#4b63a5ff";
+    const color = e.dataTransfer.getData("color") || "#1e88e5";
 
     if (!text) return;
 
@@ -99,3 +121,4 @@ function nextMonth() {
 }
 
 renderCalendar();
+>>>>>>> 3eaf64443b69b2035eaa6e7e7a5b1579f6bb8b52
