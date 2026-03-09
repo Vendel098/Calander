@@ -2,7 +2,7 @@
     $servername = "localhost";
     $username   = "root";
     $password   = "";
-    $dbname     = "loginrendszer";
+    $dbname     = "ikt_calander";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -51,7 +51,7 @@
                             VALUES ('$nev', '$felhasznalonev', '$email', '$jelszo_hash', NOW())";
 
                     if ($conn->query($sql) === TRUE) {
-                        $success = "Sikeres regisztráció! Most <a href='login.html'>bejelentkezhet</a>.";
+                        $success = "Sikeres regisztráció! Most <a href='login.php'>bejelentkezhet</a>.";
                     } else {
                         $error = "Hiba: " . $conn->error;
                     }
@@ -103,12 +103,15 @@
             </div>
 
             <div class="input-box">
-                <input type="password" class="input-field" name="jelszo" placeholder="Jelszó" autocomplete="off" required>
+                <input type="password" class="input-field" name="jelszo" id="jelszo" placeholder="Jelszó" autocomplete="off" required>
                 <i class="fa-sharp fa-solid fa-eye-slash"></i>
+                <div id="jelszo-warning" style="color: #721c24; font-size: 12px; margin-top: 5px; display: none;">
+                    ⚠️ A jelszónak legalább 6 karakter hosszúnak kell lennie!
+                </div>
             </div>
 
             <div class="input-box">
-                <input type="password" class="input-field" name="jelszo_confirm" placeholder="Jelszó megerősítése" autocomplete="off" required>
+                <input type="password" class="input-field" name="jelszo_confirm" id="jelszo_confirm" placeholder="Jelszó megerősítése" autocomplete="off" required>
                 <i class="fa-sharp fa-solid fa-eye-slash"></i>
             </div>
 
@@ -117,6 +120,31 @@
                 <label for="submit">Regisztráció</label>
             </div>
         </form>
+
+        <script>
+            // Valós idejű jelszó validáció
+            const jelszóInput = document.getElementById('jelszo');
+            const jelszóWarning = document.getElementById('jelszo-warning');
+            const formElement = document.querySelector('form');
+
+            jelszóInput.addEventListener('input', function() {
+                if (this.value.length < 6 && this.value.length > 0) {
+                    jelszóWarning.style.display = 'block';
+                } else {
+                    jelszóWarning.style.display = 'none';
+                }
+            });
+
+            // Form beküldés előtti validáció
+            formElement.addEventListener('submit', function(e) {
+                if (jelszóInput.value.length < 6) {
+                    e.preventDefault(); // Megakadályozza a form beküldést
+                    jelszóWarning.style.display = 'block';
+                    jelszóInput.focus();
+                    return false;
+                }
+            });
+        </script>
 
         <div class="sign-up-link">
             <p>Már van fiókod? <a href="login.html">Bejelentkezés</a></p>

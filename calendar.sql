@@ -18,8 +18,23 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `calendar`
+-- Adatbázis: `ikt_calander`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nev` varchar(150) NOT NULL,
+  `felhasznalonev` varchar(64) NOT NULL UNIQUE,
+  `email` varchar(100) NOT NULL UNIQUE,
+  `jelszo` varchar(255) NOT NULL,
+  `regisztralva` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
 
@@ -38,24 +53,15 @@ CREATE TABLE `esemeny` (
   `letrehozva` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `profil`
---
-
-CREATE TABLE `profil` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `felhasznalonev` varchar(64) DEFAULT NULL,
-  `nev` varchar(150) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `jelszo` varchar(255) DEFAULT NULL,
-  `regisztralva` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
 --
 -- Indexek a kiírt táblákhoz
 --
+
+--
+-- A tábla indexei `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- A tábla indexei `esemeny`
@@ -64,25 +70,19 @@ ALTER TABLE `esemeny`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `profil`
---
-ALTER TABLE `profil`
-  ADD PRIMARY KEY (`id`);
-
---
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
+
+--
+-- AUTO_INCREMENT a táblához `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `esemeny`
 --
 ALTER TABLE `esemeny`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `profil`
---
-ALTER TABLE `profil`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 

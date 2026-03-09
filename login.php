@@ -2,7 +2,7 @@
     $servername = "localhost";
     $username   = "root";
     $password   = "";
-    $dbname     = "loginrendszer";
+    $dbname     = "ikt_calander";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
