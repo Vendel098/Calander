@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="settings.css">
+  <script src="settings.js" defer></script>
+  <title>Beállítások - SmartCalendar</title>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <h1>SmartCalendar</h1>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" onclick="window.location.href='main.html'">← Vissza a naptárhoz</button>
+    </div>
+  </nav>
+
+  <div class="settings-container">
+    <h2>Beállítások</h2>
+
+    <div class="settings-section">
+      <h3>Megjelenés</h3>
+      <div class="setting-item">
+        <label>Téma</label>
+        <select id="theme-select">
+          <option value="light">Világos</option>
+          <option value="dark">Sötét</option>
+          <option value="system">Rendszer alapértelmezett</option>
+        </select>
+      </div>
+
+      <div class="setting-item">
+        <label>Nézet alapértelmezett</label>
+        <select id="default-view">
+          <option value="month">Hónap</option>
+          <option value="week">Hét</option>
+          <option value="day">Nap</option>
+        </select>
+      </div>
+
+      <div class="setting-item">
+        <label>Hét első napja</label>
+        <select id="week-start">
+          <option value="1">Hétfő</option>
+          <option value="0">Vasárnap</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="settings-section">
+      <h3>Értesítések</h3>
+      <div class="setting-item">
+        <label>E-mail értesítések</label>
+        <input type="checkbox" id="email-notif" checked>
+      </div>
+      <div class="setting-item">
+        <label>Asztali értesítések</label>
+        <input type="checkbox" id="desktop-notif" checked>
+      </div>
+      <div class="setting-item">
+        <label>Alapértelmezett emlékeztető</label>
+        <select id="default-reminder">
+          <option value="0">Nincs</option>
+          <option value="5">5 perccel előtte</option>
+          <option value="15">15 perccel előtte</option>
+          <option value="30">30 perccel előtte</option>
+          <option value="60">1 órával előtte</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h3>Naptár megjelenítés</h3>
+      <div class="setting-item">
+        <label>Hétvégék megjelenítése</label>
+        <input type="checkbox" id="show-weekends" checked>
+      </div>
+      <div class="setting-item">
+        <label>Munkaidő kezdete</label>
+        <input type="time" id="work-start" value="09:00">
+      </div>
+      <div class="setting-item">
+        <label>Munkaidő vége</label>
+        <input type="time" id="work-end" value="17:00">
+      </div>
+    </div>
+
+    <div class="settings-actions">
+      <button class="save-settings" onclick="saveSettings()">Mentés</button>
+      <button class="reset-settings" onclick="resetSettings()">Alaphelyzet</button>
+    </div>
+  </div>
+
+</body>
+
+</html>
