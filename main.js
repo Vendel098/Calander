@@ -52,3 +52,49 @@ renderCalendar();
 }
 
 renderCalendar();
+
+function openSettings() {
+    document.getElementById('settingsModal').classList.add('show');
+}
+
+function closeSettings() {
+    document.getElementById('settingsModal').classList.remove('show');
+}
+
+function setTheme(theme) {
+    if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+    }
+    
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('settingsModal');
+    if (event.target === modal) {
+        closeSettings();
+    }
+}
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        if (btn.classList.contains('dark-btn')) {
+            btn.classList.add('active');
+        }
+    });
+} else {
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        if (btn.classList.contains('light-btn')) {
+            btn.classList.add('active');
+        }
+    });
+}

@@ -10,32 +10,78 @@
 </head>
 <body>
 
-<div class="calendar">
-<div class="calendar-header">
-<button onclick="prevMonth()">◀</button>
-<h2 id="monthYear"></h2>
-<button onclick="nextMonth()">▶</button>
-</div>
-
-<div class="weekdays">
-<div>H</div><div>K</div><div>Sze</div><div>Cs</div>
-<div>P</div><div>Szo</div><div>V</div>
-</div>
-
-<div class="days" id="days"></div>
-</div>
-
-<div class="oldal">
-    <div class="event-templates">
-        <h3>Esemény sablonok</h3>
-        <div class="template-list">
-          <div class="template-event" draggable="true" data-color="blue" >Szülinap</div>
-          <div class="template-event" draggable="true" data-color="green" >Utazás</div>
-          <div class="template-event" draggable="true" data-color="orange">Orvos</div>
-          <div class="template-event" draggable="true" data-color="red">Egyéb</div>
-          <div class="create-event" data-color="purple">+Esemény létrehozása</div>
+    <div class="navbar">
+        <div class="navbar-left">
+            <div class="view-selector">
+                <button class="view-btn" onclick="setView('day')">Nap</button>
+                <button class="view-btn" onclick="setView('week')">Hét</button>
+                <button class="view-btn active" onclick="setView('month')">Hónap</button>
+                <button class="view-btn" onclick="setView('year')">Év</button>
+            </div>
+            
+            <div class="search-box">
+                <span>"icon"</span>
+                <input type="text" id="searchInput" placeholder="Keresés">
+            </div>
         </div>
-      </div>
+        
+        <div class="navbar-right">
+            <button class="settings-btn" onclick="openSettings()">Beállítások</button>
+            <button class="profile-btn" onclick="openProfile()">Profil</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="left-panel">
+            <div class="mini-calendar">
+                <div class="calendar-header">
+                    <button onclick="prevMonth()">◀</button>
+                    <h2 id="monthYear"></h2>
+                    <button onclick="nextMonth()">▶</button>
+                </div>
+
+                <div class="weekdays">
+                    <div>H</div><div>K</div><div>Sze</div><div>Cs</div>
+                    <div>P</div><div>Szo</div><div>V</div>
+                </div>
+
+                <div class="days" id="days"></div>
+            </div>
+
+            <div class="event-templates">
+                <h3>Esemény sablonok</h3>
+                <div class="template-list">
+                    <div class="template-event" draggable="true" data-color="blue">Szülinap</div>
+                    <div class="template-event" draggable="true" data-color="green">Utazás</div>
+                    <div class="template-event" draggable="true" data-color="orange">Orvos</div>
+                    <div class="template-event" draggable="true" data-color="red">Egyéb</div>
+                    <div class="create-event" data-color="purple">+ Esemény létrehozása</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="placeholder-text">
+              <h3>naptár</h3>
+            </div>
+        </div>
+    </div>
+    <div id="settingsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Beállítások</h3>
+            <button class="close-modal" onclick="closeSettings()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="setting-item">
+                <span>Megjelenés</span>
+                <div class="theme-toggle">
+                    <button onclick="setTheme('light')" class="theme-btn light-btn">Világos</button>
+                    <button onclick="setTheme('dark')" class="theme-btn dark-btn">Sötét</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
