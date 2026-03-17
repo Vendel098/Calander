@@ -88,6 +88,11 @@ body {
     margin-right: 8px;
 }
 
+#search-icon{
+    width: 32px;
+    height: 32px;
+}
+
 .settings-btn, .profile-btn {
     background: #f0f2f5;
     border: none;
@@ -121,6 +126,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    height: 86vh;
 }
 
 .mini-calendar {
