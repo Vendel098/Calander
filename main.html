@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -10,89 +9,144 @@
 </head>
 <body>
 
-    <div class="navbar">
-        <div class="navbar-left">
-            <div class="view-selector">
-                <button class="view-btn" onclick="setView('day')">Nap</button>
-                <button class="view-btn" onclick="setView('week')">Hét</button>
-                <button class="view-btn active" onclick="setView('month')">Hónap</button>
-                <button class="view-btn" onclick="setView('year')">Év</button>
-            </div>
-            
-            <div class="search-box">
-                <span>"icon"</span>
-                <input type="text" id="searchInput" placeholder="Keresés">
-            </div>
+<div class="navigacios-sav">
+    <div class="navigacios-sav-bal">
+        <div class="nezet-valaszto">
+            <button class="nezet-gomb" onclick="valasztottNezet('nap')">Nap</button>
+            <button class="nezet-gomb" onclick="valasztottNezet('het')">Hét</button>
+            <button class="nezet-gomb aktiv" onclick="valasztottNezet('honap')">Hónap</button>
+            <button class="nezet-gomb" onclick="valasztottNezet('ev')">Év</button>
         </div>
         
-        <div class="navbar-right">
-            <button class="settings-btn" onclick="openSettings()">Beállítások</button>
-            <button class="profile-btn" onclick="openProfile()">Profil</button>
+        <div class="kereses-mezo">
+            <span>"icon"</span>
+            <input type="text" id="keresesBevitel" placeholder="Keresés eseményekben">
         </div>
     </div>
-
-    <div class="main-content">
-        <div class="left-panel">
-            <div class="mini-calendar">
-                <div class="calendar-header">
-                    <button onclick="prevMonth()">◀</button>
-                    <h2 id="monthYear"></h2>
-                    <button onclick="nextMonth()">▶</button>
-                </div>
-
-                <div class="weekdays">
-                    <div>H</div><div>K</div><div>Sze</div><div>Cs</div>
-                    <div>P</div><div>Szo</div><div>V</div>
-                </div>
-
-                <div class="days" id="days"></div>
-            </div>
-
-            <div class="event-templates">
-                <h3>Esemény sablonok</h3>
-                <div class="template-list">
-                    <div class="template-event" draggable="true" data-color="blue">Szülinap</div>
-                    <div class="template-event" draggable="true" data-color="green">Utazás</div>
-                    <div class="template-event" draggable="true" data-color="orange">Orvos</div>
-                    <div class="template-event" draggable="true" data-color="red">Egyéb</div>
-                    <div class="create-event" data-color="purple" onclick="esemenyLetrehozas()">+ Esemény létrehozása</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="right-panel">
-            <div class="placeholder-text">
-              <h3>naptár</h3>
+    
+    <div class="navigacios-sav-jobb">
+        <button class="beallitasok-gomb" onclick="beallitasokMegnyitasa()">Beállítások</button>
+        <div class="profil-container">
+            <button class="profil-gomb">Profil</button>
+            <div class="profil-dropdown">
+                <div class="dropdown-item belépés" onclick="belepes()">Belépés</div>
+                <div class="dropdown-item regisztráció" onclick="regisztracio()">Regisztráció</div>
             </div>
         </div>
     </div>
-    <div id="settingsModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
+</div>
+
+<div class="fo-tartalom">
+    <div class="bal-oldali-panel">
+        <div class="mini-naptar">
+            <div class="naptar-fejlec">
+                <button onclick="miniElozoHonap()">◀</button>
+                <h2 id="miniHonapEv"></h2>
+                <button onclick="miniKovetkezoHonap()">▶</button>
+            </div>
+            <div class="het-napok">
+                <div>H</div><div>K</div><div>Sze</div><div>Cs</div>
+                <div>P</div><div>Szo</div><div>V</div>
+            </div>
+            <div class="napok" id="miniNapok"></div>
+        </div>
+
+        <div class="esemeny-sablonok">
+            <h3>Esemény sablonok</h3>
+            <div class="sablon-lista">
+                <div class="sablon-esemeny" data-szin="kek" onclick="sablonEsemenyLetrehozas('Szülinap', 'kek')">Szülinap</div>
+                <div class="sablon-esemeny" data-szin="zold" onclick="sablonEsemenyLetrehozas('Utazás', 'zold')">Utazás</div>
+                <div class="sablon-esemeny" data-szin="narancs" onclick="sablonEsemenyLetrehozas('Orvos', 'narancs')">Orvos</div>
+                <div class="sablon-esemeny" data-szin="piros" onclick="sablonEsemenyLetrehozas('Egyéb', 'piros')">Egyéb</div>
+                <div class="uj-esemeny" onclick="esemenyLetrehozas()">Esemény létrehozása</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="jobb-oldali-panel">
+        <div class="nagy-naptar-fejlec">
+            <h2 id="nagyHonapEv"></h2>
+            <div class="nagy-naptar-nav">
+                <button onclick="nagyElozoHonap()">◀</button>
+                <button class="ma-gomb" onclick="nagyMaiNap()">Ma</button>
+                <button onclick="nagyKovetkezoHonap()">▶</button>
+            </div>
+        </div>
+        <div class="nagy-het-napok" id="nagyHetNapok">
+            <div>Hétfő</div><div>Kedd</div><div>Szerda</div><div>Csütörtök</div>
+            <div>Péntek</div><div>Szombat</div><div>Vasárnap</div>
+        </div>
+        <div class="nagy-napok" id="nagyNapok"></div>
+    </div>
+</div>
+
+<div id="beallitasokModal" class="modal">
+    <div class="modal-tartalom">
+        <div class="modal-fejlec">
             <h3>Beállítások</h3>
-            <button class="close-modal" onclick="closeSettings()">&times;</button>
+            <button class="modal-bezaras" onclick="beallitasokBezarasa()">&times;</button>
         </div>
-        <div class="modal-body">
-            <div class="setting-item">
+        <div class="modal-test">
+            <div class="beallitas-elem">
                 <span>Megjelenés</span>
-                <div class="theme-toggle">
-                    <button onclick="setTheme('light')" class="theme-btn light-btn">Világos</button>
-                    <button onclick="setTheme('dark')" class="theme-btn dark-btn">Sötét</button>
+                <div class="tema-valto">
+                    <button onclick="temaBeallitasa('vilagos')" class="tema-gomb vilagos-gomb">Világos</button>
+                    <button onclick="temaBeallitasa('sotet')" class="tema-gomb sotet-gomb">Sötét</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-    <div id="settingsEsemeny" class="esemeny">
-    <div class="esemeny-content">
-        <div class="esemeny-header">
+<div id="esemenyModal" class="esemeny-modal">
+    <div class="esemeny-modal-tartalom">
+        <div class="esemeny-modal-fejlec">
             <h3>Esemény létrehozása</h3>
-            <button class="close-esemeny" onclick="closeEsemeny()">&times;</button>
+            <button class="esemeny-modal-bezaras" onclick="esemenyBezarasa()">&times;</button>
         </div>
-        <div class="esemeny-body">
-                
+        <div class="esemeny-modal-test">
+            <div class="esemeny-form-csoport">
+                <label>Esemény címe</label>
+                <input type="text" id="esemenyCim" placeholder="Pl. Születésnap, Meeting">
             </div>
+            <div class="esemeny-form-sor">
+                <div class="esemeny-form-csoport">
+                    <label>Dátum</label>
+                    <input type="date" id="esemenyDatum">
+                </div>
+                <div class="esemeny-form-csoport">
+                    <label>Időpont</label>
+                    <input type="time" id="esemenyIdopont">
+                </div>
+            </div>
+            <div class="esemeny-form-csoport">
+                <label>Szín</label>
+                <select id="esemenySzin">
+                    <option value="kek">Kék</option>
+                    <option value="zold">Zöld</option>
+                    <option value="narancs">Narancs</option>
+                    <option value="piros">Piros</option>
+                    <option value="lila">Lila</option>
+                </select>
+            </div>
+            <div class="esemeny-form-csoport">
+                <label>Leírás</label>
+                <textarea id="esemenyLeiras" rows="3" placeholder="További részletek..."></textarea>
+            </div>
+            <button class="esemeny-mentes-gomb" onclick="esemenyMentese()">Esemény mentése</button>
+        </div>
+    </div>
+</div>
+
+<div id="esemenyReszletekModal" class="modal">
+    <div class="modal-tartalom">
+        <div class="modal-fejlec">
+            <h3 id="reszletekCim">Esemény részletei</h3>
+            <button class="modal-bezaras" onclick="reszletekBezarasa()">&times;</button>
+        </div>
+        <div class="modal-test">
+            <div id="reszletekTartalom"></div>
+            <button class="esemeny-mentes-gomb" style="background: #dc2626; margin-top: 15px;" onclick="esemenyTorlese()">Esemény törlése</button>
         </div>
     </div>
 </div>
