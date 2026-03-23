@@ -20,7 +20,7 @@
             </div>
             
             <div class="search-box">
-                <span id="search-icon"><img src="kepek/"></span>
+                <span>"icon"</span>
                 <input type="text" id="searchInput" placeholder="Keresés">
             </div>
         </div>
@@ -55,14 +55,14 @@
                     <div class="template-event" draggable="true" data-color="green">Utazás</div>
                     <div class="template-event" draggable="true" data-color="orange">Orvos</div>
                     <div class="template-event" draggable="true" data-color="red">Egyéb</div>
-                    <div class="create-event" data-color="purple">+ Esemény létrehozása</div>
+                    <div class="create-event" data-color="purple" onclick="esemenyLetrehozas()">+ Esemény létrehozása</div>
                 </div>
             </div>
         </div>
 
         <div class="right-panel">
             <div class="placeholder-text">
-                <span>asd</span>
+              <h3>naptár</h3>
             </div>
         </div>
     </div>
@@ -79,6 +79,19 @@
                     <button onclick="setTheme('light')" class="theme-btn light-btn">Világos</button>
                     <button onclick="setTheme('dark')" class="theme-btn dark-btn">Sötét</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="settingsEsemeny" class="esemeny">
+    <div class="esemeny-content">
+        <div class="esemeny-header">
+            <h3>Esemény létrehozása</h3>
+            <button class="close-esemeny" onclick="closeEsemeny()">&times;</button>
+        </div>
+        <div class="esemeny-body">
+                
             </div>
         </div>
     </div>

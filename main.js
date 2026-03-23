@@ -98,3 +98,18 @@ if (savedTheme === 'dark') {
         }
     });
 }
+
+function esemenyLetrehozas() {
+  document.getElementById("settingsEsemeny").classList.add("show");
+}
+
+function closeEsemeny() {
+  document.getElementById("settingsEsemeny").classList.remove("show");
+}
+
+window.onclick = function (event) {
+  const esemeny = document.getElementById("settingsEsemeny");
+  if (event.target === esemeny) {
+    closeSettings();
+  }
+};
