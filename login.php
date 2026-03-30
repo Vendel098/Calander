@@ -1,48 +1,53 @@
 <?php
-    $servername = "localhost";
-    $username   = "root";
-    $password   = "";
-    $dbname     = "ikt_calander";
+session_start();
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+$servername = "localhost";
+$username   = "root";
+$password   = "";
+$dbname     = "ikt_calander";
 
-    if ($conn->connect_error) {
-        die("Conection error(szar vagy): " . $conn->connect_error);
-    }
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection error: " . $conn->connect_error);
+}
 
-    $error   = "";
-    $success = "";
+$error   = "";
+$success = "";
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $email  = trim($_POST["email"] ?? "");
-        $jelszo = $_POST["jelszo"] ?? "";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email  = trim($_POST["email"] ?? "");
+    $jelszo = $_POST["jelszo"] ?? "";
 
-        if ($email === "" || $jelszo === "") {
-            $error = "Töltsd ki az összes mezőt!";
+    if ($email === "" || $jelszo === "") {
+        $error = "Töltsd ki az összes mezőt!";
+    } else {
+        // Prepared statement a biztonságért
+        $stmt = $conn->prepare("SELECT id, nev, jelszo FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 0) {
+            $error = "A megadott e-mail címmel nem létezik felhasználó.";
         } else {
-            // SQL injection elleni védelem
-            $email = $conn->real_escape_string($email);
-            
-            $sql    = "SELECT * FROM users WHERE email='$email'";
-            $result = $conn->query($sql);
+            $user = $result->fetch_assoc();
 
-            if ($result->num_rows === 0) {
-                $error = "A megadott e-mail címmel nem létezik felhasználó.";
+            if (password_verify($jelszo, $user["jelszo"])) {
+                // Sikeres bejelentkezés: session beállítása és átirányítás
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['nev'] = $user['nev'];
+
+                header("Location: main.php");
+                exit;
             } else {
-                $user = $result->fetch_assoc();
-
-                // Jelszó ellenőrzése hash-vel
-                if (password_verify($jelszo, $user["jelszo"])) {
-                    $success = "Sikeres bejelentkezés! Üdvözlöm, " . htmlspecialchars($user["nev"]) . "!";
-                    // TODO: session indítása, redirect a főoldalra
-                } else {
-                    $error = "Rossz jelszó!";
-                }
+                $error = "Rossz jelszó!";
             }
         }
-    }
-?>
 
+        $stmt->close();
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -92,10 +97,5 @@
         </div>
 
     </div>
-
-
-
-
-    
 </body>
 </html>

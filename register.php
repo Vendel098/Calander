@@ -1,66 +1,74 @@
 <?php
-    $servername = "localhost";
-    $username   = "root";
-    $password   = "";
-    $dbname     = "ikt_calander";
+session_start();
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+$servername = "localhost";
+$username   = "root";
+$password   = "";
+$dbname     = "ikt_calander";
 
-    if ($conn->connect_error) {
-        die("Kapcsolodasi hiba: " . $conn->connect_error);
-    }
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Kapcsolodasi hiba: " . $conn->connect_error);
+}
 
-    $success = "";
-    $error   = "";
+$success = "";
+$error   = "";
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $nev              = trim($_POST["nev"] ?? "");
-        $felhasznalonev   = trim($_POST["felhasznalonev"] ?? "");
-        $email            = trim($_POST["email"] ?? "");
-        $jelszo           = $_POST["jelszo"] ?? "";
-        $jelszo_confirm   = $_POST["jelszo_confirm"] ?? "";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $nev              = trim($_POST["nev"] ?? "");
+    $felhasznalonev   = trim($_POST["felhasznalonev"] ?? "");
+    $email            = trim($_POST["email"] ?? "");
+    $jelszo           = $_POST["jelszo"] ?? "";
+    $jelszo_confirm   = $_POST["jelszo_confirm"] ?? "";
 
-        // Ellenőrzések
-        if ($nev === "" || $felhasznalonev === "" || $email === "" || $jelszo === "") {
-            $error = "Minden mező kitöltése kötelező!";
-        } elseif ($jelszo !== $jelszo_confirm) {
-            $error = "A jelszavak nem egyeznek meg!";
-        } elseif (strlen($jelszo) < 6) {
-            $error = "A jelszónak legalább 6 karakter hosszúnak kell lennie!";
+    if ($nev === "" || $felhasznalonev === "" || $email === "" || $jelszo === "") {
+        $error = "Minden mező kitöltése kötelező!";
+    } elseif ($jelszo !== $jelszo_confirm) {
+        $error = "A jelszavak nem egyeznek meg!";
+    } elseif (strlen($jelszo) < 6) {
+        $error = "A jelszónak legalább 6 karakter hosszúnak kell lennie!";
+    } else {
+        // Ellenőrzések prepared statementtel
+        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+        if ($stmt->num_rows > 0) {
+            $error = "Ez az e-mail cím már regisztrálva van!";
+            $stmt->close();
         } else {
-            // Szanitáció SQL injection ellen
-            $nev = $conn->real_escape_string($nev);
-            $felhasznalonev = $conn->real_escape_string($felhasznalonev);
-            $email = $conn->real_escape_string($email);
-
-            // Ellenőrizze, hogy az email már létezik-e
-            $check_email = $conn->query("SELECT * FROM users WHERE email='$email'");
-            if ($check_email->num_rows > 0) {
-                $error = "Ez az e-mail cím már regisztrálva van!";
+            $stmt->close();
+            $stmt = $conn->prepare("SELECT id FROM users WHERE felhasznalonev = ?");
+            $stmt->bind_param("s", $felhasznalonev);
+            $stmt->execute();
+            $stmt->store_result();
+            if ($stmt->num_rows > 0) {
+                $error = "Ez a felhasználónév már foglalt!";
+                $stmt->close();
             } else {
-                // Ellenőrizze, hogy a felhasználónév már létezik-e
-                $check_username = $conn->query("SELECT * FROM users WHERE felhasznalonev='$felhasznalonev'");
-                if ($check_username->num_rows > 0) {
-                    $error = "Ez a felhasználónév már foglalt!";
+                $stmt->close();
+                $jelszo_hash = password_hash($jelszo, PASSWORD_DEFAULT);
+
+                $insert = $conn->prepare("INSERT INTO users (nev, felhasznalonev, email, jelszo, regisztralva) VALUES (?, ?, ?, ?, NOW())");
+                $insert->bind_param("ssss", $nev, $felhasznalonev, $email, $jelszo_hash);
+
+                if ($insert->execute()) {
+                    // Automatikus bejelentkeztetés: session beállítása
+                    $new_user_id = $conn->insert_id;
+                    $_SESSION['user_id'] = $new_user_id;
+                    $_SESSION['nev'] = $nev;
+
+                    $insert->close();
+                    header("Location: main.php");
+                    exit;
                 } else {
-                    // Jelszó hash-elése
-                    $jelszo_hash = password_hash($jelszo, PASSWORD_DEFAULT);
-
-                    // Beszúrás az adatbázisba az idő automatikus hozzáadásával
-                    $sql = "INSERT INTO users (nev, felhasznalonev, email, jelszo, regisztralva) 
-                            VALUES ('$nev', '$felhasznalonev', '$email', '$jelszo_hash', NOW())";
-
-                    if ($conn->query($sql) === TRUE) {
-                        $success = "Sikeres regisztráció! Most <a href='login.php'>bejelentkezhet</a>.";
-                    } else {
-                        $error = "Hiba: " . $conn->error;
-                    }
+                    $error = "Hiba: " . $conn->error;
                 }
             }
         }
     }
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -85,7 +93,7 @@
 
         <?php if ($error !== ""): ?>
             <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #f5c6cb;">
-                <?php echo $error; ?>
+                <?php echo htmlspecialchars($error); ?>
             </div>
         <?php endif; ?>
 
@@ -138,7 +146,7 @@
             // Form beküldés előtti validáció
             formElement.addEventListener('submit', function(e) {
                 if (jelszóInput.value.length < 6) {
-                    e.preventDefault(); // Megakadályozza a form beküldést
+                    e.preventDefault();
                     jelszóWarning.style.display = 'block';
                     jelszóInput.focus();
                     return false;
@@ -147,7 +155,7 @@
         </script>
 
         <div class="sign-up-link">
-            <p>Már van fiókod? <a href="login.html">Bejelentkezés</a></p>
+            <p>Már van fiókod? <a href="login.php">Bejelentkezés</a></p>
         </div>
 
     </div>
