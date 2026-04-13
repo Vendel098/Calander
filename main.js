@@ -298,11 +298,7 @@ function valasztottNezet(nezet) {
     
     if (nezet === 'honap') {
         nagyNaptarRajzolas();
-    } else {
-        try {
-            alert(nezet + ' nézet hamarosan elérhető');
-        } catch(e) {}
-    }
+    } 
 }
 
 function beallitasokMegnyitasa() {
@@ -340,17 +336,17 @@ function temaBeallitasa(tema) {
     } catch(e) {}
 }
 
-function belepes() {
-    try {
-        alert('Belépés funkció hamarosan elérhető!');
-    } catch(e) {}
-}
+// function belepes() {
+//     try {
+//         alert('Belépés funkció hamarosan elérhető!');
+//     } catch(e) {}
+// }
 
-function regisztracio() {
-    try {
-        alert('Regisztráció funkció hamarosan elérhető!');
-    } catch(e) {}
-}
+// function regisztracio() {
+//     try {
+//         alert('Regisztráció funkció hamarosan elérhető!');
+//     } catch(e) {}
+// }
 
 function sablonEsemenyLetrehozas(cim, szin) {
     const ma = new Date();
