@@ -779,3 +779,33 @@ body.sotet-mod .esemeny-form-csoport textarea {
     border-color: #505050;
     color: #e5e5e5;
 }
+
+body.sotet-mod .nap-szam,
+body.sotet-mod .beallitas-elem,
+body.sotet-mod .mini-naptar div {
+    color: #e5e5e5;
+}
+
+body.sotet-mod .nezet-gomb.aktiv {
+    color: #FFFFFF;
+    background-color: #7F00FF;
+}
+
+body.sotet-mod .nagy-nap.ma .nap-szam{
+    background-color: #7F00FF;
+}
+
+body.sotet-mod .nagy-nap.ma{
+    border-color: #7F00FF;
+    background-color: rgb(68, 75, 88);
+}
+
+
+body.sotet-mod .nap-jelolo:hover,
+body.sotet-mod .nezet-gomb.aktiv:hover{
+    background-color: #972fff !important;
+}
+
+body.sotet-mod .nagy-nap.mas-honap .nap-szam{
+color: #5f6368;
+}
