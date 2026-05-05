@@ -29,45 +29,45 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "A jelszónak legalább 6 karakter hosszúnak kell lennie!";
     } else {
         // Ellenőrzések prepared statementtel
-        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->store_result();
-        if ($stmt->num_rows > 0) {
-            $error = "Ez az e-mail cím már regisztrálva van!";
-            $stmt->close();
+// Ellenőrzések
+        if ($nev === "" || $felhasznalonev === "" || $email === "" || $jelszo === "") {
+            $error = "Minden mező kitöltése kötelező!";
+        } elseif ($jelszo !== $jelszo_confirm) {
+            $error = "A jelszavak nem egyeznek meg!";
+        } elseif (strlen($jelszo) < 6) {
+            $error = "A jelszónak legalább 6 karakter hosszúnak kell lennie!";
         } else {
-            $stmt->close();
-            $stmt = $conn->prepare("SELECT id FROM users WHERE felhasznalonev = ?");
-            $stmt->bind_param("s", $felhasznalonev);
-            $stmt->execute();
-            $stmt->store_result();
-            if ($stmt->num_rows > 0) {
-                $error = "Ez a felhasználónév már foglalt!";
-                $stmt->close();
+            // Szanitáció SQL injection ellen
+            $nev = $conn->real_escape_string($nev);
+            $felhasznalonev = $conn->real_escape_string($felhasznalonev);
+            $email = $conn->real_escape_string($email);
+
+            // Ellenőrizze, hogy az email már létezik-e
+            $check_email = $conn->query("SELECT * FROM users WHERE email='$email'");
+            if ($check_email->num_rows > 0) {
+                $error = "Ez az e-mail cím már regisztrálva van!";
             } else {
-                $stmt->close();
-                $jelszo_hash = password_hash($jelszo, PASSWORD_DEFAULT);
-
-                $insert = $conn->prepare("INSERT INTO users (nev, felhasznalonev, email, jelszo, regisztralva) VALUES (?, ?, ?, ?, NOW())");
-                $insert->bind_param("ssss", $nev, $felhasznalonev, $email, $jelszo_hash);
-
-                if ($insert->execute()) {
-                    // Automatikus bejelentkeztetés: session beállítása
-                    $new_user_id = $conn->insert_id;
-                    $_SESSION['user_id'] = $new_user_id;
-                    $_SESSION['nev'] = $nev;
-
-                    $insert->close();
-                    header("Location: main.php");
-                    exit;
+                // Ellenőrizze, hogy a felhasználónév már létezik-e
+                $check_username = $conn->query("SELECT * FROM users WHERE felhasznalonev='$felhasznalonev'");
+                if ($check_username->num_rows > 0) {
+                    $error = "Ez a felhasználónév már foglalt!";
                 } else {
-                    $error = "Hiba: " . $conn->error;
+                    // Jelszó hash-elése
+                    $jelszo_hash = password_hash($jelszo, PASSWORD_DEFAULT);
+
+                    // Beszúrás az adatbázisba az idő automatikus hozzáadásával
+                    $sql = "INSERT INTO users (nev, felhasznalonev, email, jelszo, regisztralva) 
+                            VALUES ('$nev', '$felhasznalonev', '$email', '$jelszo_hash', NOW())";
+
+                    if ($conn->query($sql) === TRUE) {
+                        $success = "Sikeres regisztráció! Most <a href='login.php'>bejelentkezhet</a>.";
+                    } else {
+                        $error = "Hiba: " . $conn->error;
+                    }
                 }
             }
         }
     }
-}
 ?>
 <!DOCTYPE html>
 <html lang="hu">
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <?php if ($error !== ""): ?>
             <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #f5c6cb;">
-                <?php echo htmlspecialchars($error); ?>
+                <?php echo $error; ?>
             </div>
         <?php endif; ?>
 
@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Form beküldés előtti validáció
             formElement.addEventListener('submit', function(e) {
                 if (jelszóInput.value.length < 6) {
-                    e.preventDefault();
+                    e.preventDefault(); // Megakadályozza a form beküldést
                     jelszóWarning.style.display = 'block';
                     jelszóInput.focus();
                     return false;
@@ -161,3 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 </body>
 </html>
+
+<?php
+$conn->close();
+?>
