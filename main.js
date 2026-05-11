@@ -1,3 +1,30 @@
+// Eye icon toggle for password visibility
+document.addEventListener('DOMContentLoaded', function() {
+    const eyeIcons = document.querySelectorAll('i[class*="fa-eye"]');
+    
+    eyeIcons.forEach(icon => {
+        icon.addEventListener('click', function() {
+            // Find the associated password input
+            const inputField = this.parentElement.querySelector('.input-field[type="password"], .input-field[type="text"]');
+            
+            if (inputField) {
+                if (inputField.type === 'password') {
+                    inputField.type = 'text';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                } else {
+                    inputField.type = 'password';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                }
+            }
+        });
+        
+        // Make icon clickable with cursor style
+        icon.style.cursor = 'pointer';
+    });
+});
+
 let aktualisEv = new Date().getFullYear();
 let aktualisHonap = new Date().getMonth();
 let esemenyek = {};
