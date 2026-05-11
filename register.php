@@ -14,12 +14,14 @@ if ($conn->connect_error) {
 $success = "";
 $error   = "";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") 
+    {
     $nev              = trim($_POST["nev"] ?? "");
     $felhasznalonev   = trim($_POST["felhasznalonev"] ?? "");
     $email            = trim($_POST["email"] ?? "");
     $jelszo           = $_POST["jelszo"] ?? "";
     $jelszo_confirm   = $_POST["jelszo_confirm"] ?? "";
+    
 
     if ($nev === "" || $felhasznalonev === "" || $email === "" || $jelszo === "") {
         $error = "Minden mező kitöltése kötelező!";
