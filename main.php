@@ -90,10 +90,77 @@ $nev = htmlspecialchars($_SESSION['nev']);
     </div>
 </div>
 
-<!-- A modálok és egyéb elemek változatlanok, lásd eredeti main.html -->
-<div id="beallitasokModal" class="modal"> ... </div>
-<div id="esemenyModal" class="esemeny-modal"> ... </div>
-<div id="esemenyReszletekModal" class="modal"> ... </div>
+
+<div id="beallitasokModal" class="modal">
+    <div class="modal-tartalom">
+        <div class="modal-fejlec">
+            <h3>Beállítások</h3>
+            <button class="modal-bezaras" onclick="beallitasokBezarasa()">&times;</button>
+        </div>
+        <div class="modal-test">
+            <div class="beallitas-elem">
+                <span>Megjelenés</span>
+                <div class="tema-valto">
+                    <button onclick="temaBeallitasa('vilagos')" class="tema-gomb vilagos-gomb">Világos</button>
+                    <button onclick="temaBeallitasa('sotet')" class="tema-gomb sotet-gomb">Sötét</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="esemenyModal" class="esemeny-modal">
+    <div class="esemeny-modal-tartalom">
+        <div class="esemeny-modal-fejlec">
+            <h3>Esemény létrehozása</h3>
+            <button class="esemeny-modal-bezaras" onclick="esemenyBezarasa()">&times;</button>
+        </div>
+        <div class="esemeny-modal-test">
+            <div class="esemeny-form-csoport">
+                <label>Esemény címe</label>
+                <input type="text" id="esemenyCim" placeholder="Pl. Születésnap, Meeting">
+            </div>
+            <div class="esemeny-form-sor">
+                <div class="esemeny-form-csoport">
+                    <label>Dátum</label>
+                    <input type="date" id="esemenyDatum">
+                </div>
+                <div class="esemeny-form-csoport">
+                    <label>Időpont</label>
+                    <input type="time" id="esemenyIdopont">
+                </div>
+            </div>
+            <div class="esemeny-form-csoport">
+                <label>Szín</label>
+                <select id="esemenySzin">
+                    <option value="kek">Kék</option>
+                    <option value="zold">Zöld</option>
+                    <option value="narancs">Narancs</option>
+                    <option value="piros">Piros</option>
+                    <option value="lila">Lila</option>
+                </select>
+            </div>
+            <div class="esemeny-form-csoport">
+                <label>Leírás</label>
+                <textarea id="esemenyLeiras" rows="3" placeholder="További részletek..."></textarea>
+            </div>
+            <button class="esemeny-mentes-gomb" onclick="esemenyMentese()">Esemény mentése</button>
+        </div>
+    </div>
+</div>
+
+<div id="esemenyReszletekModal" class="modal">
+    <div class="modal-tartalom">
+        <div class="modal-fejlec">
+            <h3 id="reszletekCim">Esemény részletei</h3>
+            <button class="modal-bezaras" onclick="reszletekBezarasa()">&times;</button>
+        </div>
+        <div class="modal-test">
+            <div id="reszletekTartalom"></div>
+            <button class="esemeny-mentes-gomb" style="background: #dc2626; margin-top: 15px;" onclick="esemenyTorlese()">Esemény törlése</button>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
