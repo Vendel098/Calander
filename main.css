@@ -66,29 +66,6 @@ body {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.kereses-mezo {
-    display: flex;
-    align-items: center;
-    background: #f0f2f5;
-    border-radius: 24px;
-    padding: 8px 16px;
-    min-width: 250px;
-}
-
-.kereses-mezo input {
-    border: none;
-    background: transparent;
-    padding: 4px 8px;
-    width: 100%;
-    outline: none;
-    font-size: 14px;
-}
-
-.kereses-mezo span {
-    color: #5f6368;
-    margin-right: 8px;
-}
-
 .beallitasok-gomb {
     border: none;
     padding: 10px 20px;
@@ -106,7 +83,6 @@ body {
 
 .profil-container {
     position: relative;
-    padding-bottom: 10px;
 }
 
 .profil-gomb {
@@ -124,43 +100,58 @@ body {
     background: #e81a47;
 }
 
+/* PROFIL DROPDOWN MÓDOSÍTÁSA KATTINTÁSRA (Hover törölve) */
 .profil-dropdown {
     display: none;
     position: absolute;
     top: 100%;
     right: 0;
-    margin-top: -8px;
+    margin-top: 8px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     min-width: 200px;
     z-index: 100;
     overflow: hidden;
+    border: 1px solid #e5e7eb;
 }
 
-.profil-container:hover .profil-dropdown {
+/* Ez az osztály nyitja meg a dropdown-t */
+.profil-dropdown.mutat {
     display: block;
 }
 
+/* Formázott Kijelentkezés és Bejelentkezés a login stílusában */
 .dropdown-item {
-    padding: 12px 20px;
+    display: block;
+    padding: 14px 20px;
     cursor: pointer;
-    transition: background 0.2s;
-    color: #1f2937;
-    font-size: 14px;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 15px;
     text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    background: #fa276d;
+    margin: 8px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px rgba(250, 39, 109, 0.2);
 }
 
 .dropdown-item:hover {
-    background: #f0f2f5;
+    background: #e81a47;
+    box-shadow: 0px 6px 14px rgba(232, 26, 71, 0.4);
+    transform: translateY(-1px);
 }
 
-.dropdown-item.belépés {
-    border-bottom: 1px solid #e5e7eb;
+.dropdown-item.bejelentkezes-link {
+    background: #28a745;
+    box-shadow: 0px 4px 10px rgba(40, 167, 69, 0.2);
 }
 
-.dropdown-item.regisztráció {
-    color: #fa276d;
+.dropdown-item.bejelentkezes-link:hover {
+    background: #218838;
+    box-shadow: 0px 6px 14px rgba(33, 136, 56, 0.4);
 }
 
 .fo-tartalom {
@@ -441,7 +432,8 @@ body {
 .nagy-esemeny.piros { background: #fce8e6; border-left-color: #861a12; }
 .nagy-esemeny.lila { background: #f3e5f5; border-left-color: #5a1d91; }
 
-.modal {
+/* MODALS */
+.modal, .esemeny-modal {
     display: none;
     position: fixed;
     top: 0;
@@ -454,31 +446,25 @@ body {
     align-items: center;
 }
 
-.modal.megjelenit {
+.modal.megjelenit, .esemeny-modal.megjelenit {
     display: flex;
 }
 
-.modal-tartalom {
+.modal-tartalom, .esemeny-modal-tartalom {
     background: white;
     border-radius: 16px;
-    width: 400px;
+    width: 450px;
     max-width: 90%;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     animation: modalSlide 0.3s ease;
 }
 
 @keyframes modalSlide {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
-.modal-fejlec {
+.modal-fejlec, .esemeny-modal-fejlec {
     padding: 20px;
     border-bottom: 1px solid #e5e7eb;
     display: flex;
@@ -486,13 +472,13 @@ body {
     align-items: center;
 }
 
-.modal-fejlec h3 {
+.modal-fejlec h3, .esemeny-modal-fejlec h3 {
     margin: 0;
     color: #1f2937;
     font-size: 1.2rem;
 }
 
-.modal-bezaras {
+.modal-bezaras, .esemeny-modal-bezaras {
     background: none;
     border: none;
     font-size: 24px;
@@ -500,15 +486,57 @@ body {
     color: #6b7280;
 }
 
-.modal-test {
+.modal-test, .esemeny-modal-test {
     padding: 20px;
+}
+
+.esemeny-form-csoport {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.esemeny-form-csoport label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.esemeny-form-csoport input, .esemeny-form-csoport select, .esemeny-form-csoport textarea {
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.esemeny-form-sor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.esemeny-mentes-gomb {
+    width: 100%;
+    padding: 12px;
+    background: #fa276d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.esemeny-mentes-gomb:hover {
+    background: #e81a47;
 }
 
 .beallitas-elem {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
 }
 
 .tema-valto {
@@ -531,146 +559,11 @@ body {
     border-color: #fa276d;
 }
 
-.esemeny-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-}
-
-.esemeny-modal.megjelenit {
-    display: flex;
-}
-
-.esemeny-modal-tartalom {
-    background: white;
-    border-radius: 16px;
-    width: 450px;
-    max-width: 90%;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
-
-.esemeny-modal-fejlec {
-    padding: 20px;
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.esemeny-modal-fejlec h3 {
-    margin: 0;
-    color: #1f2937;
-}
-
-.esemeny-modal-bezaras {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #6b7280;
-}
-
-.esemeny-modal-test {
-    padding: 20px;
-}
-
-.esemeny-form-csoport {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.esemeny-form-csoport label {
-    font-weight: 500;
-    color: #374151;
-    font-size: 14px;
-}
-
-.esemeny-form-csoport input,
-.esemeny-form-csoport select,
-.esemeny-form-csoport textarea {
-    padding: 8px 12px;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-}
-
-.esemeny-form-csoport input:focus,
-.esemeny-form-csoport select:focus,
-.esemeny-form-csoport textarea:focus {
-    border-color: #fa276d;
-}
-
-.esemeny-form-sor {
-    display: flex;
-    gap: 10px;
-}
-
-.esemeny-form-sor .esemeny-form-csoport {
-    flex: 1;
-}
-
-.esemeny-mentes-gomb {
-    width: 100%;
-    padding: 10px;
-    background: #fa276d;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    margin-top: 10px;
-}
-
-.esemeny-mentes-gomb:hover {
-    background: #e81a47;
-}
-
-@media (max-width: 768px) {
-    .navigacios-sav {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .navigacios-sav-bal {
-        flex-direction: column;
-    }
-    
-    .kereses-mezo {
-        width: 100%;
-    }
-    
-    .nezet-valaszto {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .bal-oldali-panel {
-        flex: 0 0 100%;
-    }
-    
-    .jobb-oldali-panel {
-        min-width: auto;
-    }
-    
-    .nagy-nap {
-        min-height: 80px;
-    }
-}
-
+/* SÖTÉT MÓD KIEGÉSZÍTÉSEK */
 body.sotet-mod {
-    background: #1a1a1a;
+    background: #1e1e1e;
+    color: #e5e5e5;
 }
-
 body.sotet-mod .navigacios-sav,
 body.sotet-mod .mini-naptar,
 body.sotet-mod .esemeny-sablonok,
@@ -679,134 +572,19 @@ body.sotet-mod .modal-tartalom,
 body.sotet-mod .esemeny-modal-tartalom,
 body.sotet-mod .profil-dropdown {
     background: #2d2d2d;
-}
-
-body.sotet-mod .naptar-fejlec h2,
-body.sotet-mod .esemeny-sablonok h3,
-body.sotet-mod .modal-fejlec h3,
-body.sotet-mod .nagy-naptar-fejlec h2,
-body.sotet-mod .sablon-esemeny,
-body.sotet-mod .uj-esemeny,
-body.sotet-mod .dropdown-item,
-body.sotet-mod .esemeny-modal-fejlec h3,
-body.sotet-mod .esemeny-form-csoport label {
     color: #e5e5e5;
+    border-color: #404040;
 }
-
-body.sotet-mod .het-napok div,
-body.sotet-mod .nagy-het-napok div {
-    color: #9ca3af;
-}
-
-body.sotet-mod .naptar-fejlec button,
-body.sotet-mod .profil-gomb,
-body.sotet-mod .nagy-naptar-nav .ma-gomb {
-    background: #7F00FF;
-}
-
-body.sotet-mod .naptar-fejlec button:hover,
-body.sotet-mod .profil-gomb:hover,
-body.sotet-mod .nagy-naptar-nav .ma-gomb:hover {
-    background: #972fff;
-}
-
-body.sotet-mod .beallitasok-gomb,
-body.sotet-mod .nagy-naptar-nav button {
-    background: #404040;
-    color: #e5e5e5;
-}
-
-body.sotet-mod .nap-jelolo {
-    background: #7F00FF;
-}
-
-body.sotet-mod .napok div:hover,
-body.sotet-mod .nagy-nap:hover {
-    background: #404040;
-}
-
-body.sotet-mod .sablon-esemeny,
-body.sotet-mod .uj-esemeny {
-    background: #333333;
-}
-
-body.sotet-mod .sablon-esemeny[data-szin="kek"] { border-color: #5a9eff; background: #1e3a5f; }
-body.sotet-mod .sablon-esemeny[data-szin="zold"] { border-color: #4caf50; background: #1e3a2a; }
-body.sotet-mod .sablon-esemeny[data-szin="narancs"] { border-color: #ff9800; background: #4a3a1a; }
-body.sotet-mod .sablon-esemeny[data-szin="piros"] { border-color: #f44336; background: #4a1e1e; }
-
 body.sotet-mod .nagy-nap {
     background: #333333;
     border-color: #404040;
 }
-
-body.sotet-mod .nagy-nap.ma {
-    background: #4a3a1a;
+body.sotet-mod .nagy-naptar-fejlec h2,
+body.sotet-mod .naptar-fejlec h2,
+body.sotet-mod .esemeny-sablonok h3 {
+    color: white;
 }
-
 body.sotet-mod .nagy-nap.mas-honap {
     background: #252525;
     color: #6b7280;
-}
-
-body.sotet-mod .kereses-mezo,
-body.sotet-mod .nezet-valaszto {
-    background: #333333;
-}
-
-body.sotet-mod .kereses-mezo input {
-    color: #e5e5e5;
-}
-
-body.sotet-mod .tema-gomb {
-    background: #333333;
-    border-color: #505050;
-    color: #e5e5e5;
-}
-
-body.sotet-mod .tema-gomb.aktiv {
-    background: #7F00FF;
-}
-
-body.sotet-mod .modal-bezaras,
-body.sotet-mod .esemeny-modal-bezaras {
-    color: #9ca3af;
-}
-
-body.sotet-mod .esemeny-form-csoport input,
-body.sotet-mod .esemeny-form-csoport select,
-body.sotet-mod .esemeny-form-csoport textarea {
-    background: #404040;
-    border-color: #505050;
-    color: #e5e5e5;
-}
-
-body.sotet-mod .nap-szam,
-body.sotet-mod .beallitas-elem,
-body.sotet-mod .mini-naptar div {
-    color: #e5e5e5;
-}
-
-body.sotet-mod .nezet-gomb.aktiv {
-    color: #FFFFFF;
-    background-color: #7F00FF;
-}
-
-body.sotet-mod .nagy-nap.ma .nap-szam{
-    background-color: #7F00FF;
-}
-
-body.sotet-mod .nagy-nap.ma{
-    border-color: #7F00FF;
-    background-color: rgb(68, 75, 88);
-}
-
-
-body.sotet-mod .nap-jelolo:hover,
-body.sotet-mod .nezet-gomb.aktiv:hover{
-    background-color: #972fff !important;
-}
-
-body.sotet-mod .nagy-nap.mas-honap .nap-szam{
-color: #5f6368;
 }
