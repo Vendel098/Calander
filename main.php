@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Ha nincs bejelentkezve a felhasználó, átirányítás a login oldalra
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
