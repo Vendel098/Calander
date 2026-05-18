@@ -106,6 +106,7 @@ body {
 
 .profil-container {
     position: relative;
+    padding-bottom: 10px;
 }
 
 .profil-gomb {
@@ -128,7 +129,7 @@ body {
     position: absolute;
     top: 100%;
     right: 0;
-    margin-top: 8px;
+    margin-top: -8px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
