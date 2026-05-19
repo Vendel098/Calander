@@ -1,3 +1,42 @@
+document.querySelectorAll('.input-box i').forEach(icon => {
+  const input = icon.parentElement.querySelector('input[type="password"]');
+  
+  if (input) {
+    icon.addEventListener('click', () => {
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      } 
+      else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      }
+    });
+    
+    icon.style.cursor = 'pointer';
+  }
+});
+// Password confirmation check
+const passwordInputs = document.querySelectorAll('input[type="password"]');
+if (passwordInputs.length >= 2) {
+  const passwordField = passwordInputs[0];
+  const confirmPasswordField = passwordInputs[1];
+
+  confirmPasswordField.addEventListener('input', () => {
+    if (passwordField.value !== '' && passwordField.value !== confirmPasswordField.value) {
+      confirmPasswordField.style.borderColor = 'red';
+      confirmPasswordField.style.boxShadow = '0 0 10px rgba(255, 0, 0, 0.5)';
+    } else if (passwordField.value === confirmPasswordField.value && confirmPasswordField.value !== '') {
+      confirmPasswordField.style.borderColor = 'green';
+      confirmPasswordField.style.boxShadow = '0 0 10px rgba(0, 255, 0, 0.5)';
+    } else {
+      confirmPasswordField.style.borderColor = '';
+      confirmPasswordField.style.boxShadow = '';
+    }
+  });
+}
 let aktualisEv = new Date().getFullYear();
 let aktualisHonap = new Date().getMonth(); 
 let aktualisNap = new Date().getDate();     
