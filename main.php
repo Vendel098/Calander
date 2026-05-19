@@ -10,9 +10,12 @@ $be_van_jelentkezve = isset($_SESSION['user_id']);
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalendárium</title>
+<title>Naptár</title>
 <link rel="stylesheet" href="main.css">
 <script src="main.js" defer></script>
+<script>
+    const USER_LOGGED_IN = <?php echo $be_van_jelentkezve ? 'true' : 'false'; ?>;
+</script>
 </head>
 <body>
 
@@ -55,7 +58,7 @@ $be_van_jelentkezve = isset($_SESSION['user_id']);
             </div>
             <div class="napok" id="miniNapok"></div>
         </div>
-
+        <?php if ($be_van_jelentkezve): ?>
         <div class="esemeny-sablonok">
             <h3>Esemény sablonok</h3>
             <div class="sablon-lista">
@@ -66,6 +69,7 @@ $be_van_jelentkezve = isset($_SESSION['user_id']);
                 <div class="uj-esemeny" onclick="esemenyLetrehozas()">Esemény létrehozása</div>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 
     <div class="jobb-oldali-panel">
