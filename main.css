@@ -566,13 +566,12 @@ body.sotet-mod {
 }
 body.sotet-mod .navigacios-sav,
 body.sotet-mod .mini-naptar,
-body.sotet-mod .esemeny-sablonok,
 body.sotet-mod .jobb-oldali-panel,
 body.sotet-mod .modal-tartalom,
 body.sotet-mod .esemeny-modal-tartalom,
 body.sotet-mod .profil-dropdown {
     background: #2d2d2d;
-    color: #e5e5e5;
+    color: #ffffff;
     border-color: #404040;
 }
 body.sotet-mod .nagy-nap {
@@ -582,9 +581,29 @@ body.sotet-mod .nagy-nap {
 body.sotet-mod .nagy-naptar-fejlec h2,
 body.sotet-mod .naptar-fejlec h2,
 body.sotet-mod .esemeny-sablonok h3 {
-    color: white;
+    color: rgb(255, 255, 255);
 }
 body.sotet-mod .nagy-nap.mas-honap {
     background: #252525;
-    color: #6b7280;
+    color: #ffffff;
+}
+
+body.sotet-mod .esemeny-sablonok{
+    background: #2d2d2d;
+    color: #2d2d2d;
+}
+body.sotet-mod .nagy-esemeny{
+    color:#2d2d2d;
+}
+
+body.sotet-mod .nagy-het-napok{
+    color: white;
+}
+body.sotet-mod .nezet-valaszto,
+body.sotet-mod .beallitasok-gomb
+{
+    background: #1b1919;
+}
+body.sotet-mod .beallitasok-gomb{
+    color: white;
 }
